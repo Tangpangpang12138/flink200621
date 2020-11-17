@@ -11,13 +11,13 @@ import org.apache.flink.util.Collector;
  * @create 2020-11-17 16:14
  */
 public class Flink06_Transform_Flatmap {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
         DataStreamSource<String> fileDS = env.readTextFile("sensor");
 
-        SingleOutputStreamOperator<String> stringSingleOutputStreamOperator = fileDS.flatMap(new FlatMapFunction<String, String>() {
+        SingleOutputStreamOperator<String> flatMapDS = fileDS.flatMap(new FlatMapFunction<String, String>() {
             @Override
             public void flatMap(String s, Collector<String> collector) throws Exception {
                 String[] split = s.split(",");
@@ -26,5 +26,9 @@ public class Flink06_Transform_Flatmap {
                 }
             }
         });
+
+        flatMapDS.print();
+
+        env.execute();
     }
 }
