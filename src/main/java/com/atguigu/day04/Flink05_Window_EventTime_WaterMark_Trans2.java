@@ -39,7 +39,7 @@ public class Flink05_Window_EventTime_WaterMark_Trans2 {
             }
         }).keyBy("id").timeWindow(Time.seconds(5));
 
-        SingleOutputStreamOperator<SensorReading> ts = id.sum("temperature");
+        SingleOutputStreamOperator<SensorReading> ts = id.sum("temp");
 
         ts.print();
 
